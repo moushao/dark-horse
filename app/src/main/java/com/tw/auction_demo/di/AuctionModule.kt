@@ -1,6 +1,6 @@
 package com.tw.auction_demo.di
 
-import com.tw.auction_demo.auctions.datasource.AuctionLocalDataSource
+import com.tw.auction_demo.auctions.datasource.local.AuctionLocalDataSource
 import com.tw.auction_demo.auctions.datasource.remote.AuctionRemoteDataSource
 import com.tw.auction_demo.auctions.repository.AuctionsRepository
 import com.tw.auction_demo.auctions.ui.AuctionsViewModel
