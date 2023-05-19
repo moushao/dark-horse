@@ -2,7 +2,7 @@ package com.tw.auction_demo.auctions.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tw.auction_demo.auctions.model.AuctionModel
+import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.repository.AuctionsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +28,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     sealed interface AuctionListUIState {
         object Loading : AuctionListUIState
-        open class Success(val actions: List<AuctionModel>) : AuctionListUIState
+        open class Success(val actions: List<AuctionListModel>) : AuctionListUIState
         object Error : AuctionListUIState
     }
 }
