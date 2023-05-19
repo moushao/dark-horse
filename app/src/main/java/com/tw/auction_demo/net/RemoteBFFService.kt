@@ -28,7 +28,11 @@ class RemoteBFFService : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         var resourceFileContent: String? = null
-        val operationName = request.url.pathSegments.last()+"/$VALUE_DEFAULT"
+        val operationName =
+//            request.url.pathSegments.last()+"/$VALUE_DEFAULT"
+
+        request.url.pathSegments.joinToString("_").plus(".json")
+
         run getContent@{
                 val currentContent = readResourceFile(operationName)
                 if (currentContent != null) {

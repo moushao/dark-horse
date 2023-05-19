@@ -1,6 +1,6 @@
 package com.tw.auction_demo.auctions.model
 
-class AuctionDetailModel(
+class AuctionListModel(
     val id: String,
     val name: String,
     val description: String,
@@ -10,8 +10,7 @@ class AuctionDetailModel(
     val bidCount: Int,
     val startTime: String,
     val endTime: String,
-    val status: String,
-    val seller: String,
-    val bidTimes: Int,
-    val deposit: String
+    val status: String
 )
+
+enum class ActionStatus
