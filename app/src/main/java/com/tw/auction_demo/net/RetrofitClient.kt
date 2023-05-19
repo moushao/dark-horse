@@ -19,7 +19,7 @@ class RetrofitClient private constructor() {
         .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
         .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
         .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-        .addInterceptor(MockInterceptor())
+        .addInterceptor(RemoteBFFService())
         .build()
 
     internal val retrofit: Retrofit = Retrofit.Builder()

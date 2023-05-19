@@ -18,7 +18,7 @@ import java.lang.Thread.sleep
 /**
  * Creates an OkHttp Interceptor that parses a request to dynamically
  */
-class MockInterceptor : Interceptor {
+class RemoteBFFService : Interceptor {
 
     companion object {
         const val VALUE_DEFAULT = "default.json"

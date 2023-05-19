@@ -1,0 +1,16 @@
+{
+  "id": "123456789",
+  "name": "iPhone 12 Pro",
+  "description": "The latest iPhone model with advanced features.",
+  "image": "https://example.com/images/iphone12pro.jpg",
+  "startingPrice": 999.99,
+  "currentPrice": 1200.00,
+  "bidCount": 10,
+  "startTime": "2023-05-18",
+  "endTime": "2023-05-23",
+  "status": "active",
+  "seller": "John Doe",
+  "bidTimes": 18,
+  "deposit": "200"
+}
+
