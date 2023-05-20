@@ -1,8 +1,12 @@
 package com.tw.auction_demo.auctions.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -16,11 +20,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,29 +40,34 @@ import androidx.compose.ui.unit.sp
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import org.koin.androidx.compose.get
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AuctionScreen(
     viewModel: AuctionsViewModel
 ) {
-    val uiState by viewModel.uIState.collectAsState()
-    Box(Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            when (uiState) {
-                is AuctionsViewModel.UIState.AuctionListUIState -> {
-                    AuctionListScreen(viewModel)
-                }
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        val uiState by viewModel.uIState.collectAsState()
+        Box(Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                when (uiState) {
+                    is AuctionsViewModel.UIState.AuctionListUIState -> {
+                        AuctionListScreen(viewModel)
+                    }
 
-                else -> {
-                    AuctionDetailsScreen(viewModel)
+                    else -> {
+                        AuctionDetailsScreen(viewModel)
+                    }
                 }
             }
         }
     }
-
 }
 
 
@@ -146,11 +160,14 @@ fun AuctionListItemScreen(item: AuctionListModel, onClick: (String) -> Unit) {
 fun AuctionListScreen(
     viewModel: AuctionsViewModel
 ) {
+
     val uIState by viewModel.auctionUIState.collectAsState()
     when (uIState) {
         is AuctionsViewModel.AuctionListUIState.Success -> {
-            (uIState as AuctionsViewModel.AuctionListUIState.Success).actions.forEach {
-                AuctionListItemScreen(item = it, onClick = viewModel::getAuctionDetails)
+            LazyColumn {
+                itemsIndexed((uIState as AuctionsViewModel.AuctionListUIState.Success).actions) { _, item ->
+                    AuctionListItemScreen(item = item, onClick = viewModel::getAuctionDetails)
+                }
             }
         }
 

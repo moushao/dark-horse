@@ -21,9 +21,7 @@ class AuctionListActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FullScreenScaffold {
-                        AuctionScreen(viewModel)
-                    }
+                    AuctionScreen(viewModel)
                 }
             }
         }

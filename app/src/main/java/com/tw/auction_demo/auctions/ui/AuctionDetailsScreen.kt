@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tw.auction_demo.auctions.model.AuctionModel
+import com.tw.auction_demo.di.auctionModule
 import org.koin.androidx.compose.get
 
 @Composable
@@ -36,7 +37,10 @@ fun AuctionDetailsScreen(viewModel: AuctionsViewModel) {
         }
 
         is AuctionsViewModel.AuctionDetailsUIState.Success -> {
-            AuctionContentScreen(auction = (uiState as AuctionsViewModel.AuctionDetailsUIState.Success).action)
+            AuctionContentScreen(
+                auction = (uiState as AuctionsViewModel.AuctionDetailsUIState.Success).action,
+                viewModel = viewModel
+            )
         }
 
         is AuctionsViewModel.AuctionDetailsUIState.Error -> {
@@ -46,7 +50,10 @@ fun AuctionDetailsScreen(viewModel: AuctionsViewModel) {
 }
 
 @Composable
-fun AuctionContentScreen(auction: AuctionModel) {
+fun AuctionContentScreen(
+    auction: AuctionModel,
+    viewModel: AuctionsViewModel
+) {
     Column(
         modifier = Modifier
             .padding(12.dp)
@@ -118,7 +125,7 @@ fun AuctionContentScreen(auction: AuctionModel) {
                 )
             }
 
-            DepositStatusScreen(auction)
+            DepositStatusScreen(auction, viewModel = viewModel)
 
         }
     }
@@ -127,13 +134,13 @@ fun AuctionContentScreen(auction: AuctionModel) {
 @Composable
 fun DepositStatusScreen(
     auction: AuctionModel,
-    viewModel: AuctionsViewModel = get()
+    viewModel: AuctionsViewModel
 ) {
     val depositStatusUIState by viewModel.depositStatusUIState.collectAsState()
-    var testContent by remember { mutableStateOf(auction.depositStatus) }
-    LaunchedEffect(Unit) {
-        testContent = depositStatusUIState
-    }
+//    var testContent by remember { mutableStateOf(auction.depositStatus) }
+//    LaunchedEffect(Unit) {
+//        testContent = depositStatusUIState
+//    }
 
     when (depositStatusUIState) {
         "未支付" -> {
@@ -145,12 +152,12 @@ fun DepositStatusScreen(
                     .padding(vertical = 2.dp, horizontal = 15.dp),
                 onClick = {
                     viewModel.depositsPay(auction)
-                    testContent = "dfadsf"
+//                    testContent = "dfadsf"
 
                 }
             ) {
                 Text(
-                    text = testContent
+                    text = depositStatusUIState
                 )
             }
         }

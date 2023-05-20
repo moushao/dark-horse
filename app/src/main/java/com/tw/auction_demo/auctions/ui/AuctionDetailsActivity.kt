@@ -22,10 +22,7 @@ class AuctionDetailsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FullScreenScaffold {
-                        val uiState = viewModel.uIState.collectAsState()
-                        AuctionScreen(viewModel)
-                    }
+                    AuctionScreen(viewModel)
                 }
             }
         }
