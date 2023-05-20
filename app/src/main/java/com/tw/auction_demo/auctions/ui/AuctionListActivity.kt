@@ -1,4 +1,4 @@
-package com.tw.auction_demo.ui
+package com.tw.auction_demo.auctions.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.tw.auction_demo.auctions.ui.AuctionListScreen
 import com.tw.auction_demo.ui.theme.AuctiondemoTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : ComponentActivity() {
+
+class AuctionListActivity : ComponentActivity() {
+    val viewModel: AuctionsViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -19,9 +21,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AuctionListScreen("Android")
+                    FullScreenScaffold {
+                        AuctionScreen(viewModel)
+                    }
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        viewModel.backToAuctionsList()
     }
 }
