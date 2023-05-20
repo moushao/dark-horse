@@ -1,4 +1,4 @@
-package com.tw.auction_demo.ui.theme
+package com.tw.auction_demo.auctions.ui.theme
 
 import android.app.Activity
 import android.os.Build

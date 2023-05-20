@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.tw.auction_demo.ui.theme.AuctiondemoTheme
+import com.tw.auction_demo.auctions.ui.theme.AuctiondemoTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
