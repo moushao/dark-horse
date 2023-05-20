@@ -109,4 +109,5 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
     implementation("io.coil-kt:coil-compose:2.3.0")
     testImplementation("org.robolectric:robolectric:4.7.3")
+    testImplementation("app.cash.turbine:turbine:0.12.1")
 }
