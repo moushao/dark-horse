@@ -12,14 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 val mockAuctionListModel = AuctionListModel(
     id = "5",
     name = "Designer Handbag",
-    description = "Luxurious designer handbag",
     image = "https://example.com/images/handbag.jpg",
-    startingPrice = 500.00,
-    currentPrice = 600.00,
-    bidCount = 6,
     startTime = "2023-05-18T12:30:00Z",
-    endTime = "2023-05-19T18:30:00Z",
-    status = "active",
     bidTimes = 2,
     price = 3
 )

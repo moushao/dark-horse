@@ -6,7 +6,9 @@ import com.tw.auction_demo.utils.mockAuctionListModel
 import com.tw.auction_demo.utils.mockDepositsPayResultModel
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +22,11 @@ class RemoteDataSourceTest {
     @Before
     fun setUp() {
         remoteDataSource = RemoteDataSourceImpl(actionApi)
+    }
+
+    @After
+    fun tearsDown(){
+        unmockkAll()
     }
 
     @Test
