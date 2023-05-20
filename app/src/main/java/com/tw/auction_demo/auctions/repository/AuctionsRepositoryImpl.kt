@@ -24,7 +24,7 @@ class AuctionsRepositoryImpl(
                     localDataSource.saveAuction(this)
                 }
             } catch (e: Exception) {
-                localDataSource.getAuction(auctionId)
+                requireNotNull(localDataSource.getAuction(auctionId))
             }
         }
     }

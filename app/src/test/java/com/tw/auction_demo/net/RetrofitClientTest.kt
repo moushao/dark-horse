@@ -5,7 +5,6 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class RetrofitClientTest {
-
     @Test
     fun testRetrofitClientTest() {
         val retrofit = RetrofitClient.get

@@ -19,7 +19,7 @@ class AuctionServiceTest() {
             mockWebServer.enqueue(
                 mockResponse(
                     classLoader = javaClass.classLoader as ClassLoader,
-                    filePath = "auctions/default.json"
+                    filePath = "auctions.json"
                 )
             )
 
@@ -76,13 +76,11 @@ class AuctionServiceTest() {
         assertTrue(result.isSuccessful)
         val auction = result.body()!!
         assertEquals("1001", auction.id)
-        assertEquals("iPhone 12 Pro", auction.name)
-        assertEquals("The latest iPhone model with advanced features.", auction.description)
-        assertEquals("https://example.com/images/iphone12pro.jpg", auction.image)
+        assertEquals("马家窑文化彩陶漩涡菱形几何纹双系壶", auction.name)
         assertEquals(10, auction.bidCount)
         assertEquals("2023-05-18", auction.startTime)
         assertEquals("2023-05-23", auction.endTime)
-        assertEquals("active", auction.status)
+        assertEquals("正在拍卖中", auction.status)
         assertEquals("John Doe", auction.seller)
         assertEquals(18, auction.bidTimes)
         assertEquals("200", auction.deposit)

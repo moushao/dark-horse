@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.tw.auction_demo.auctions.model.AuctionModel
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.repository.AuctionsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : ViewModel() {
 
     private val _auctionsUIState = MutableStateFlow<AuctionListUIState>(AuctionListUIState.Loading)
-    val auctionUIState = _auctionsUIState.asStateFlow()
+    val auctionsUIState = _auctionsUIState.asStateFlow()
 
     private val _auctionDetailsUIState =
         MutableStateFlow<AuctionDetailsUIState>(AuctionDetailsUIState.Loading)
@@ -20,9 +21,6 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     private val _uIState = MutableStateFlow<UIState>(UIState.AuctionListUIState)
     val uIState = _uIState.asStateFlow()
-
-    private val _depositStatusUIState = MutableStateFlow("未支付")
-    val depositStatusUIState = _depositStatusUIState.asStateFlow()
 
 
     init {
@@ -37,7 +35,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
         }
     }
 
-    private fun getAuctions() {
+    fun getAuctions() {
         _auctionsUIState.value = AuctionListUIState.Loading
         viewModelScope.launch {
             val result = auctionsRepository.getAuctions()
@@ -51,15 +49,16 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
     fun getAuctionDetails(auctionId: String) {
         viewModelScope.launch {
             val result = auctionsRepository.getAuctionDetails(auctionId)
+            _uIState.value = UIState.AuctionDetailsState
             when {
                 result.isSuccess -> {
                     _auctionDetailsUIState.value =
                         AuctionDetailsUIState.Success(result.getOrNull()!!)
-                    _uIState.value = UIState.AuctionDetailsState
-                    _depositStatusUIState.value = result.getOrNull()!!.depositStatus
                 }
 
-                else -> {}
+                else -> {
+                    _auctionDetailsUIState.value = AuctionDetailsUIState.Error
+                }
             }
         }
     }
@@ -70,13 +69,11 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     fun depositsPay(auction: AuctionModel) {
         viewModelScope.launch {
-            _auctionDetailsUIState.value = AuctionDetailsUIState.Loading
             val result = auctionsRepository.depositsPay(auction)
             when {
                 result.isSuccess -> {
-//                    _auctionDetailsUIState.value =
-//                        AuctionDetailsUIState.Success(auction.copy(depositStatus = "已支付"))
-                    _depositStatusUIState.value = "已支付"
+                    _auctionDetailsUIState.value =
+                        AuctionDetailsUIState.Success(auction.copy(depositStatus = "已支付"))
                 }
 
                 else -> {
@@ -89,29 +86,28 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     private suspend fun retryToDepositsPay(auction: AuctionModel) {
         repeat(10) {
+            delay(6000)
             val result = auctionsRepository.depositsPay(auction)
             when {
                 result.isSuccess -> {
-//                    _auctionDetailsUIState.value =
-//                        AuctionDetailsUIState.Success(auction.copy(depositStatus = "已支付"))
-                    _depositStatusUIState.value = "已支付"
+                    _auctionDetailsUIState.value =
+                        AuctionDetailsUIState.Success(auction.copy(depositStatus = "已支付"))
                     return@repeat
                 }
 
                 else -> {
-                    val depositStatus = if (it != 10) {
-                        "第${it}次重试中，请稍后"
+                    val depositStatus = if (it != 9) {
+                        "第${it + 1}次重试中，请稍后"
                     } else {
                         "支付失败"
                     }
 
-                    _depositStatusUIState.value = depositStatus
-//                    _auctionDetailsUIState.value =
-//                        AuctionDetailsUIState.Success(
-//                            auction.copy(
-//                                depositStatus = depositStatus
-//                            )
-//                        )
+                    _auctionDetailsUIState.value =
+                        AuctionDetailsUIState.Success(
+                            auction.copy(
+                                depositStatus = depositStatus
+                            )
+                        )
                 }
 
             }
@@ -128,7 +124,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     sealed interface AuctionDetailsUIState {
         object Loading : AuctionDetailsUIState
-        open class Success(val action: AuctionModel) : AuctionDetailsUIState
+        open class Success(val auction: AuctionModel) : AuctionDetailsUIState
         object Error : AuctionDetailsUIState
     }
 

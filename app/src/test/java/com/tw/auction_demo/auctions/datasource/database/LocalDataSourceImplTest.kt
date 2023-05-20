@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.tw.auction_demo.auctions.datasource.database.dao.AuctionDatabase
 import com.tw.auction_demo.utils.DB_AUCTIONS
 import com.tw.auction_demo.utils.mockAuctionModel
+import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
@@ -46,6 +47,7 @@ class LocalDataSourceImplTest {
     @Throws(IOException::class)
     fun closeDb() {
         db.close()
+        unmockkAll()
     }
 
     @Test
