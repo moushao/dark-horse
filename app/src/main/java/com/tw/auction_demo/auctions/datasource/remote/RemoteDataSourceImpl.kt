@@ -1,6 +1,6 @@
 package com.tw.auction_demo.auctions.datasource.remote
 
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.model.DepositsPayResultModel
 import com.tw.auction_demo.net.AuctionApi
@@ -16,8 +16,8 @@ class RemoteDataSourceImpl(private val auctionApi: AuctionApi) : RemoteDataSourc
         }
     }
 
-    override suspend fun getAuctionDetails(auctionId: String): AuctionDetailModel {
-        val response = auctionApi.getAuctionDetails(auctionId)
+    override suspend fun getAuction(auctionId: String): AuctionModel {
+        val response = auctionApi.getAuction(auctionId)
         if (response.isSuccessful) {
             return response.body()!!
         } else {

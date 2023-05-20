@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 import org.koin.androidx.compose.get
 
 @Composable
@@ -46,7 +46,7 @@ fun AuctionDetailsScreen(viewModel: AuctionsViewModel) {
 }
 
 @Composable
-fun AuctionContentScreen(auction: AuctionDetailModel) {
+fun AuctionContentScreen(auction: AuctionModel) {
     Column(
         modifier = Modifier
             .padding(12.dp)
@@ -126,7 +126,7 @@ fun AuctionContentScreen(auction: AuctionDetailModel) {
 
 @Composable
 fun DepositStatusScreen(
-    auction: AuctionDetailModel,
+    auction: AuctionModel,
     viewModel: AuctionsViewModel = get()
 ) {
     val depositStatusUIState by viewModel.depositStatusUIState.collectAsState()

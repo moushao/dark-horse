@@ -5,17 +5,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 
 @Dao
 interface AuctionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg auctionEntity: AuctionDetailModel)
+    suspend fun insertAll(vararg auctionEntity: AuctionModel)
 
     @Delete
-    suspend fun delete(auctionEntity: AuctionDetailModel)
+    suspend fun delete(auctionEntity: AuctionModel)
 
     @Query("SELECT * FROM auction WHERE id == :auctionId")
-    suspend fun findAuction(auctionId: String): AuctionDetailModel
+    suspend fun findAuction(auctionId: String): AuctionModel
 }

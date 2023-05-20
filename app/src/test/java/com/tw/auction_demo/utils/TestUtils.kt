@@ -1,6 +1,6 @@
 package com.tw.auction_demo.utils
 
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.model.DepositsPayResultModel
 import okhttp3.HttpUrl
@@ -24,7 +24,7 @@ val mockAuctionListModel = AuctionListModel(
     price = 3
 )
 
-val mockAuctionDetailsModel = AuctionDetailModel(
+val mockAuctionModel = AuctionModel(
     id = "1001",
     name = "name",
     description = "description",
@@ -44,9 +44,9 @@ val mockAuctionDetailsModel = AuctionDetailModel(
 val mockDepositsPayResultModel = DepositsPayResultModel(result = "已支付")
 
 val DB_AUCTIONS = listOf(
-    mockAuctionDetailsModel,
-    mockAuctionDetailsModel.copy(id="1002"),
-    mockAuctionDetailsModel.copy(id="1003")
+    mockAuctionModel,
+    mockAuctionModel.copy(id="1002"),
+    mockAuctionModel.copy(id="1003")
 )
 
 

@@ -1,6 +1,5 @@
 package com.tw.auction_demo.net
 
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
 import com.tw.auction_demo.utils.getTestRetrofit
 import com.tw.auction_demo.utils.mockResponse
 import kotlinx.coroutines.runBlocking
@@ -71,22 +70,22 @@ class AuctionServiceTest() {
         // When
         val service = getTestRetrofit(mockWebServer.url("/auction/1001/"))
             .create(AuctionApi::class.java)
-        val result = service.getAuctionDetails("1001")
+        val result = service.getAuction("1001")
 
         // Then assert auction details info
         assertTrue(result.isSuccessful)
-        val auctionDetail = result.body()!!
-        assertEquals("1001", auctionDetail.id)
-        assertEquals("iPhone 12 Pro", auctionDetail.name)
-        assertEquals("The latest iPhone model with advanced features.", auctionDetail.description)
-        assertEquals("https://example.com/images/iphone12pro.jpg", auctionDetail.image)
-        assertEquals(10, auctionDetail.bidCount)
-        assertEquals("2023-05-18", auctionDetail.startTime)
-        assertEquals("2023-05-23", auctionDetail.endTime)
-        assertEquals("active", auctionDetail.status)
-        assertEquals("John Doe", auctionDetail.seller)
-        assertEquals(18, auctionDetail.bidTimes)
-        assertEquals("200", auctionDetail.deposit)
+        val auction = result.body()!!
+        assertEquals("1001", auction.id)
+        assertEquals("iPhone 12 Pro", auction.name)
+        assertEquals("The latest iPhone model with advanced features.", auction.description)
+        assertEquals("https://example.com/images/iphone12pro.jpg", auction.image)
+        assertEquals(10, auction.bidCount)
+        assertEquals("2023-05-18", auction.startTime)
+        assertEquals("2023-05-23", auction.endTime)
+        assertEquals("active", auction.status)
+        assertEquals("John Doe", auction.seller)
+        assertEquals(18, auction.bidTimes)
+        assertEquals("200", auction.deposit)
 
         mockWebServer.shutdown()
     }
@@ -106,7 +105,7 @@ class AuctionServiceTest() {
         // When
         val service = getTestRetrofit(mockWebServer.url("/auction/1003/"))
             .create(AuctionApi::class.java)
-        val result = service.getAuctionDetails("1003")
+        val result = service.getAuction("1003")
 
         // Then assert auction details info
         assertTrue(result.isSuccessful)

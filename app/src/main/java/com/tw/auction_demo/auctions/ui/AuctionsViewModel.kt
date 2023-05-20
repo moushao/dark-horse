@@ -2,7 +2,7 @@ package com.tw.auction_demo.auctions.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.repository.AuctionsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,7 +68,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
         _uIState.value = UIState.AuctionListUIState
     }
 
-    fun depositsPay(auction: AuctionDetailModel) {
+    fun depositsPay(auction: AuctionModel) {
         viewModelScope.launch {
             _auctionDetailsUIState.value = AuctionDetailsUIState.Loading
             val result = auctionsRepository.depositsPay(auction)
@@ -87,7 +87,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
         }
     }
 
-    private suspend fun retryToDepositsPay(auction: AuctionDetailModel) {
+    private suspend fun retryToDepositsPay(auction: AuctionModel) {
         repeat(10) {
             val result = auctionsRepository.depositsPay(auction)
             when {
@@ -128,7 +128,7 @@ class AuctionsViewModel(private val auctionsRepository: AuctionsRepository) : Vi
 
     sealed interface AuctionDetailsUIState {
         object Loading : AuctionDetailsUIState
-        open class Success(val action: AuctionDetailModel) : AuctionDetailsUIState
+        open class Success(val action: AuctionModel) : AuctionDetailsUIState
         object Error : AuctionDetailsUIState
     }
 

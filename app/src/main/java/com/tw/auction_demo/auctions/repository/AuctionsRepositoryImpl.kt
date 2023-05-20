@@ -3,7 +3,7 @@ package com.tw.auction_demo.auctions.repository
 import com.tw.auction_demo.auctions.model.AuctionListModel
 import com.tw.auction_demo.auctions.datasource.database.LocalDataSource
 import com.tw.auction_demo.auctions.datasource.remote.RemoteDataSource
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.auctions.model.AuctionModel
 import com.tw.auction_demo.auctions.model.DepositsPayResultModel
 
 class AuctionsRepositoryImpl(
@@ -16,11 +16,11 @@ class AuctionsRepositoryImpl(
         }
     }
 
-    override suspend fun getAuctionDetails(auctionId: String): Result<AuctionDetailModel> {
+    override suspend fun getAuctionDetails(auctionId: String): Result<AuctionModel> {
 
         return runCatching {
             try {
-                remoteDataSource.getAuctionDetails(auctionId).apply {
+                remoteDataSource.getAuction(auctionId).apply {
                     localDataSource.saveAuction(this)
                 }
             } catch (e: Exception) {
@@ -29,7 +29,7 @@ class AuctionsRepositoryImpl(
         }
     }
 
-    override suspend fun depositsPay(auction: AuctionDetailModel): Result<DepositsPayResultModel> {
+    override suspend fun depositsPay(auction: AuctionModel): Result<DepositsPayResultModel> {
         return runCatching {
             val result = remoteDataSource.depositsPay(auction.id, auction.deposit)
             localDataSource.saveAuction(
@@ -39,10 +39,11 @@ class AuctionsRepositoryImpl(
         }
     }
 
-    override suspend fun checkDepositPayResult() {
-        runCatching {
+    override suspend fun checkDepositPayResult(): Result<List<DepositsPayResultModel>> {
+        return runCatching {
             val result = remoteDataSource.checkDepositPayResult()
             localDataSource.updateDepositPayResult(result)
+            result
         }
     }
 }

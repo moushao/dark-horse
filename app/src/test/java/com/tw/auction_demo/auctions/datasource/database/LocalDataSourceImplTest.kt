@@ -3,11 +3,9 @@ package com.tw.auction_demo.auctions.datasource.database
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.tw.auction_demo.auctions.datasource.database.dao.AuctionDao
 import com.tw.auction_demo.auctions.datasource.database.dao.AuctionDatabase
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
 import com.tw.auction_demo.utils.DB_AUCTIONS
-import com.tw.auction_demo.utils.mockAuctionDetailsModel
+import com.tw.auction_demo.utils.mockAuctionModel
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
@@ -53,6 +51,6 @@ class LocalDataSourceImplTest {
     @Test
     fun givenValidId_whenFindInLocal_thenAssertTheReturnDataWasValid() = runBlocking {
         val result = db.auctionDao().findAuction("1001")
-        assertThat(mockAuctionDetailsModel, equalTo(result))
+        assertThat(mockAuctionModel, equalTo(result))
     }
 }

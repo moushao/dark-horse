@@ -1,10 +1,7 @@
 package com.tw.auction_demo.auctions.datasource.remote
 
-import com.tw.auction_demo.auctions.model.AuctionDetailModel
-import com.tw.auction_demo.auctions.model.AuctionListModel
-import com.tw.auction_demo.auctions.model.DepositsPayResultModel
 import com.tw.auction_demo.net.AuctionApi
-import com.tw.auction_demo.utils.mockAuctionDetailsModel
+import com.tw.auction_demo.utils.mockAuctionModel
 import com.tw.auction_demo.utils.mockAuctionListModel
 import com.tw.auction_demo.utils.mockDepositsPayResultModel
 import io.mockk.coEvery
@@ -59,24 +56,24 @@ class RemoteDataSourceTest {
     fun givenResponseWithAuctionDetails_whenExecuteGetAuctionDetails_thenAssertResult() =
         runBlocking {
             // Given Response auction list
-            coEvery { actionApi.getAuctionDetails("1001") } returns Response.success(
-                mockAuctionDetailsModel
+            coEvery { actionApi.getAuction("1001") } returns Response.success(
+                mockAuctionModel
             )
 
             // When execute getAuctions
-            val result = remoteDataSource.getAuctionDetails("1001")
+            val result = remoteDataSource.getAuction("1001")
 
             // Then assert result
-            assertEquals(mockAuctionDetailsModel, result)
+            assertEquals(mockAuctionModel, result)
         }
 
     @Test(expected = Exception::class)
     fun givenResponseWithFailed_whenExecuteGetAuctionDetails_thenAssertResult(): Unit =
         runBlocking {
             // Given Response exception
-            coEvery { actionApi.getAuctionDetails(any()) } throws Exception()
+            coEvery { actionApi.getAuction(any()) } throws Exception()
             // Then throw exception
-            remoteDataSource.getAuctionDetails("")
+            remoteDataSource.getAuction("")
         }
 
     @Test
