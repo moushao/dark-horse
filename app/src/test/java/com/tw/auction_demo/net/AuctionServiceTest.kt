@@ -1,6 +1,8 @@
 package com.tw.auction_demo.net
 
 import com.tw.auction_demo.auctions.model.AuctionDetailModel
+import com.tw.auction_demo.utils.getTestRetrofit
+import com.tw.auction_demo.utils.mockResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
@@ -74,7 +76,7 @@ class AuctionServiceTest() {
         // Then assert auction details info
         assertTrue(result.isSuccessful)
         val auctionDetail = result.body()!!
-        assertEquals("123456789", auctionDetail.id)
+        assertEquals("1001", auctionDetail.id)
         assertEquals("iPhone 12 Pro", auctionDetail.name)
         assertEquals("The latest iPhone model with advanced features.", auctionDetail.description)
         assertEquals("https://example.com/images/iphone12pro.jpg", auctionDetail.image)
