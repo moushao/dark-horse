@@ -10,7 +10,9 @@ class AuctionListModel(
     val bidCount: Int,
     val startTime: String,
     val endTime: String,
-    val status: String
+    val status: String,
+    val bidTimes: Int,
+    val price: Int
 )
 
 enum class ActionStatus
